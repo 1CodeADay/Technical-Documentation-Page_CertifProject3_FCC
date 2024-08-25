@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Technical Documentation Page</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <nav id="navbar">
+    <header>API Documentation for Postman</header>
+    <ul>
+      <li><a href="#overview" class="nav-link">Overview</a></li>
+      <li><a href="#endpoints" class="nav-link">Endpoints</a></li>
+      <li><a href="#using_postman" class="nav-link">Using Postman</a></li>
+      <li><a href="#examples" class="nav-link">Examples</a></li>
+      <li><a href="#conclusion" class="nav-link">Conclusion</a></li>
+    </ul>
+  </nav>
+  <main id="main-doc">
+    <section class="main-section" id="overview">
+      <header>Overview</header>
+      <article>
+        <p>The "Simple To-Do List API" is designed to help users manage their daily tasks. It allows for the creation, retrieval, updating, and deletion of tasks through a series of HTTP requests. This API is structured around RESTful principles, meaning that it uses standard HTTP methods (GET, POST, PUT, DELETE) to perform operations on resources identified by URLs.</p>
+        <p>This guide will walk you through each endpoint available in the API, provide examples of request and response formats, and explain how to set up and test the API using Postman.
+        </p>
+        <p><strong>Base URL: http://localhost:3000/api/v1</strong></p>
+        <p>The Base URL is the root address where the API is hosted. All endpoints will be appended to this base URL to form the full address used in each API call.
+        </p>
+      </article>
+
+    </section>
+
+    <section class="main-section" id="endpoints">
+      <header>Endpoints</header>
+      <article>
+        <p>Each endpoint in this API is designed to handle specific operations related to managing tasks. Below, we describe each endpoint, the HTTP method used, the purpose of the endpoint, the required inputs, and the expected outputs.</p>
+        <ol>
+          <li id="get_all_tasks"><strong>Get All Tasks</strong>
+            <ul>
+              <li><strong>HTTP Method</strong>: GET</li>
+              <li><strong>Endpoint</strong>: /tasks</li>
+              <li><strong>Description</strong>: This endpoint retrieves a complete list of all tasks in the to-do list. It's useful for displaying all tasks to the user at once, providing an overview of what needs to be done and what has already been completed.</li>
+              <li><strong>Expected Response:</strong>
+                <ul>
+                  <li>The response will be a JSON array, where each element represents a task, including its unique ID, title, and completion status (true for completed, false for incomplete).
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <strong>Status Code: 200 OK
+                </strong>
+                <ul>
+                  <li>This status code indicates that the request was successful, and the server is returning the requested data.
+                  </li>
+                </ul>
+              </li>
+            </ul>
+            <p>Example of how the JSON response might look:</p>
+            <code>[
+                {
+                  "id": 1,
+                  "title": "Buy groceries",
+                  "completed": false
+                },
+                {
+                  "id": 2,
+                  "title": "Walk the dog",
+                  "completed": true
+                }
+              ]</code>
+            <p>This endpoint is typically used when you want to display all tasks to a user, for example, in a to-do list application where the user sees all their tasks listed on the main screen.</p>
+          </li>
+
+          <li id="get_a_single_task"><strong>Get a Single Task</strong>
+            <ul>
+              <li><strong>Endpoint: /tasks/:id
+              </strong></li>
+              <li><strong>Method: GET
+              </strong></li>
+              <li><strong>Description</strong>Fetches the details of a specific task identified by its ID. This is particularly useful when a user wants to view or edit the details of a specific task.</li>
+              <li><strong>Parameters:</strong> <strong>id--</strong> The unique identifier of the task you want to retrieve. This is included in the URL.</li>
+              <li>
+                <strong>Expected Response:
+                </strong>
+                <ul>
+                  <li>
+                    The server responds with a JSON object representing the task, including its ID, title, and completion status.
+
+                  </li>
+                </ul>
+              </li>
+              <p>Example of how the JSON response might look:
+
+              </p>
+              <code>{
+                  "id": 1,
+                  "title": "Buy groceries",
+                  "completed": false
+                }</code>
+              <p>This endpoint is commonly used when a user selects a task from a list to view more details or edit the task.
+
+              </p>
+            </ul>
+          </li>
+
+          <li id="create_a_new_task"><strong>Create a New Task</strong>
+            <ul>
+              <li><strong>Endpoint: /tasks
+              </strong></li>
+              <li><strong>Method: POST
+              </strong></li>
+              <li><strong>Description</strong>Adds a new task to the to-do list. The user provides the task's title, and the server assigns a unique ID and sets the task as incomplete by default.</li>
+
+              <li>
+                <strong>Request Body:
+                </strong>
+                <ul>
+                  <li>
+                    The body of the request should be a JSON object containing the task title. For example:
+                  </li>
+                    <code>{
+                        "title": "Clean the house"
+                      }</code>
+                </ul>
+              </li>
+              <li><strong>Expected Response:
+
+              </strong> The server responds with a JSON object representing the newly created task, including its ID, title, and completion status.
+            </li>
+            <li>
+              <strong>Status Code:
+              </strong>
+              <ul>
+                <li><strong>201 Created:
+                </strong>
+                The task was successfully created and added to the list.
+                </li>
+              </ul>
+            </li>
+
+            </ul>
+            <p>Example of how the JSON response might look:</p>
+            <code> {
+                "id": 3,
+                "title": "Clean the house",
+                "completed": false
+              }</code>
+            <p>This endpoint is used when a user adds a new task, for example, when they click an "Add Task" button in a to-do list application. </p>
+          </li>
+
+          <li id="update_a_task"><strong>Update a Task</strong>
+            <ul>
+              <li><strong>Endpoint: /tasks/:id
+              </strong></li>
+              <li><strong>Method: PUT
+              </strong></li>
+              <li><strong>Description</strong>Updates the details of a specific task identified by its ID. The user provides the new title and completion status for the task.</li>
+              <li><strong>Parameters:</strong> <strong>id--</strong> The unique identifier of the task you want to update. This is included in the URL.</li>
+              <li>
+                <strong>Request Body:
+                </strong>
+                <ul>
+                  <li>
+                    The body of the request should be a JSON object containing the updated task details. For example:
+                  </li>
+                  <code> {
+                      "title": "Clean the house",
+                      "completed": true
+                    }</code>
+                </ul>
+              </li>
+              <li>
+                <strong>Expected Response:
+                </strong>
+                <ul>
+                  <li>
+                    The server responds with a JSON object representing the updated task, including its ID, title, and completion status.
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <strong>Status Code: 200 OK
+                </strong>
+                <ul>
+                  <li>
+                    The task was successfully updated.
+                  </li>
+                </ul>
+              </li>
+            </ul>
+
+            <p>Example of how the JSON response might look:</p>
+          <code>{
+              "id": 3,
+              "title": "Clean the house",
+              "completed": true
+            }</code>
+          <p>This endpoint is used when a user edits the details of an existing task, for example, when they change the title or mark a task as completed.
+          </p>
+
+          </li>
+
+          <li id="delete_a_task"><strong>Delete a Task</strong>
+            <ul>
+              <li><strong>Endpoint: /tasks/:id
+              </strong></li>
+              <li><strong>Method: DELETE
+              </strong></li>
+              <li><strong>Description</strong>Removes a specific task from the to-do list. The task is identified by its unique ID.</li>
+              <li><strong>Parameters:</strong> <strong>id--</strong> The unique identifier of the task you want to delete. This is included in the URL.</li>
+              <li>
+                <strong>Expected Response:
+                </strong>
+                <ul>
+                  <li>
+                    The server responds with a JSON object representing the deleted task, including its ID, title, and completion status.
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <strong>Status Code: 204 No Content
+                </strong>
+                <ul>
+                  <li>
+                    The task was successfully deleted.
+                  </li>
+                </ul>
+              </li>
+            </ul>
+            <p>Example of how the JSON response might look:</p>
+            <code>{
+                "id": 3,
+                "title": "Clean the house",
+                "completed": true
+              }</code>
+            <p>This endpoint is used when a user removes a task from the list, for example, when they click a "Delete" button next to a task in a to-do list application.
+            </p>
+          </li>
+
+        </ol>
+      </article>
+
+    </section>
+
+    <section class="main-section" id="using_postman" >
+      <header>Using Postman</header>
+      <article>
+        <p>Postman is a popular tool for testing APIs and making HTTP requests. It provides a user-friendly interface for sending requests, viewing responses, and organizing your API testing workflow. Here's how you can set up and test the "Simple To-Do List API" using Postman:</p>
+        <ol>
+          <li><strong>Download and Install Postman</strong>
+            <p>If you don't already have Postman installed, you can download it from the official website: <a href="https://www.postman.com/downloads/">https://www.postman.com/downloads/</a>. Follow the installation instructions for your operating system.</p>
+          </li>
+          <li><strong>Open Postman</strong>
+            <p>Once Postman is installed, open the application on your computer. You should see the Postman interface with options to create a new request, import collections, and more.</p>
+          </li>
+          <li><strong>Create a New Request</strong>
+            <p>Click on the "New" button in the top-left corner of the Postman window to create a new request. You can choose to create a request in a new tab or a new window.</p>
+          </li>
+          <li><strong>Enter the Request URL</strong>
+            <p>In the request tab, enter the full URL of the endpoint you want to test. For example, if you want to retrieve all tasks, the URL would be: <code>http://localhost:3000/api/v1/tasks</code>.</p>
+          </li>
+          <li><strong>Choose the HTTP Method</strong>
+            <p>Use the dropdown menu next to the URL to select the appropriate HTTP method for the request. For example, if you are retrieving data, you would use the GET method.</p>
+          </li>
+          <li><strong>Send the Request</strong>
+            <p>Click the "Send" button to send the request to the API. Postman will display the response from the server, including the status code, headers, and body of the response.</p>
+          </li>
+          <li><strong>View the Response</strong>
+            <p>You can view the response body in various formats, such as JSON, XML, or HTML, depending on the content type
+    </section>
+
+    <section class="main-section" id="examples">
+      <header>Examples</header>
+      <article>
+        <p>Here are some examples of how to use the "Simple To-Do List API" endpoints:</p>
+        <ol>
+          <li><strong>Get All Tasks</strong></li>
+          <p>To retrieve all tasks, send a GET request to the following URL:</p>
+          <code>http://localhost:3000/api/v1/tasks</code>
+          <p>This will return a JSON array containing all the tasks.</p>
+
+          <li><strong>Get a Single Task</strong></li>
+          <p>To retrieve a specific task, send a GET request to the following URL, replacing <code>:id</code> with the actual ID of the task:</p>
+          <code>http://localhost:3000/api/v1/tasks/:id</code>
+          <p>This will return a JSON object representing the task with the specified ID.</p>
+
+          <li><strong>Create a New Task</strong></li>
+          <p>To create a new task, send a POST request to the following URL:</p>
+          <code>http://localhost:3000/api/v1/tasks</code>
+          <p>The request body should contain a JSON object with the task details, such as the title. The server will assign a unique ID to the task and set it as incomplete by default.</p>
+
+          <li><strong>Update a Task</strong></li>
+          <p>To update a specific task, send a PUT request to the following URL, replacing <code>:id</code> with the actual ID of the task:</p>
+          <code>http://localhost:3000/api/v1/tasks/:id</code>
+          <p>The request body should contain a JSON object with the updated task details, such as the new title and completion status.</p>
+
+          <li><strong>Delete a Task</strong></li>
+          <p>To delete a specific task, send a DELETE request to the following URL, replacing <code>:id</code> with the actual ID of the task:</p>
+          <code>http://localhost:3000/api/v1/tasks/:id</code>
+          <p>This will remove the task from the to-do list.</p>
+        </ol>
+      </article>
+    </section>
+
+    <section class="main-section" id="conclusion" >
+    <header>
+      Conclusion
+    </header>
+    <article>
+      <p>Thank you for reading this technical documentation on the "Simple To-Do List API." We hope this guide has provided you with a clear understanding of how to interact with the API, including the available endpoints, request and response formats, and how to test the API using Postman.</p>
+      <p>If you have any questions, feedback, or encounter any issues while using the API, please don't hesitate to reach out to our support team at
+    </article>
+    </section>
+
+  </main>
+</body>
+</html>
